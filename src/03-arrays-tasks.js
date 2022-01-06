@@ -465,9 +465,16 @@ const distinct = (arr) => Array.from(new Set(arr));
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
-}
+const group = (array, keySelector, valueSelector) => array
+  .reduce((map, el) => {
+    const country = keySelector(el);
+    const city = valueSelector(el);
+    map.set(country, map.get(country)
+      ? Array.of(...map.get(country), city)
+      : Array.of(city));
+    return map;
+  }, new Map());
+
 
 /**
  * Projects each element of the specified array to a sequence
@@ -516,9 +523,14 @@ const getElementByIndexes = (arr, indexes) => arr.flat(Infinity)[indexes.slice(-
  *   [ 1, 2, 3, 4, 5, 6, 7, 8 ]   =>  [ 5, 6, 7, 8, 1, 2, 3, 4 ]
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
-}
+const swapHeadAndTail = (arr) => {
+  const head = arr.slice(0, arr.length / 2);
+  const tail = arr.slice(Math.ceil(arr.length / 2));
+  const hasMid = arr.length % 2 !== 0;
+  const mid = arr[arr.length / 2 - 0.5];
+
+  return hasMid ? [...tail, mid, ...head] : [...tail, ...head];
+};
 
 module.exports = {
   findElement,

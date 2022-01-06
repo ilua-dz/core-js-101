@@ -467,11 +467,11 @@ const distinct = (arr) => Array.from(new Set(arr));
  */
 const group = (array, keySelector, valueSelector) => array
   .reduce((map, el) => {
-    const country = keySelector(el);
-    const city = valueSelector(el);
-    map.set(country, map.get(country)
-      ? Array.of(...map.get(country), city)
-      : Array.of(city));
+    const key = keySelector(el);
+    const value = valueSelector(el);
+    map.set(key, map.get(key)
+      ? Array.of(...map.get(key), value)
+      : Array.of(value));
     return map;
   }, new Map());
 

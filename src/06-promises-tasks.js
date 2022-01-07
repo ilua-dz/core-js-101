@@ -28,9 +28,12 @@
  *      .catch((error) => console.log(error.message)) // 'Error: Wrong parameter is passed!
  *                                                    //  Ask her again.';
  */
-function willYouMarryMe(/* isPositiveAnswer */) {
-  throw new Error('Not implemented');
-}
+const willYouMarryMe = async (isPositiveAnswer) => {
+  if (typeof isPositiveAnswer !== 'boolean') throw new Error('Wrong parameter is passed! Ask her again.');
+  return isPositiveAnswer
+    ? 'Hooray!!! She said "Yes"!'
+    : 'Oh no, she said "No".';
+};
 
 
 /**
@@ -48,9 +51,7 @@ function willYouMarryMe(/* isPositiveAnswer */) {
  *    })
  *
  */
-function processAllPromises(/* array */) {
-  throw new Error('Not implemented');
-}
+const processAllPromises = (array) => Promise.all(array);
 
 /**
  * Return Promise object that should be resolved with value received from
@@ -71,9 +72,7 @@ function processAllPromises(/* array */) {
  *    })
  *
  */
-function getFastestPromise(/* array */) {
-  throw new Error('Not implemented');
-}
+const getFastestPromise = (array) => Promise.race(array);
 
 /**
  * Return Promise object that should be resolved with value that is
@@ -92,9 +91,13 @@ function getFastestPromise(/* array */) {
  *    });
  *
  */
-function chainPromises(/* array, action */) {
-  throw new Error('Not implemented');
-}
+// eslint-disable-next-line no-unused-vars
+const chainPromises = (array, action) => new Promise((resolve) => {
+  const answers = [];
+  array.forEach((promise) => promise.then((answer) => answers.push(answer)));
+  resolve(answers);
+}).then((answers) => answers.reduce(action));
+
 
 module.exports = {
   willYouMarryMe,

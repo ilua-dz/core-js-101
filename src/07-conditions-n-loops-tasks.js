@@ -394,9 +394,20 @@ const getCommonDirectoryPath = (pathes) => {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
-}
+const getMatrixProduct = (m1, m2) => {
+  const result = [];
+  m1.forEach((_, i) => {
+    result[i] = [];
+    m2[0].forEach((__, j) => {
+      let sum = 0;
+      m1[0].forEach((___, k) => {
+        sum += m1[i][k] * m2[k][j];
+      });
+      result[i][j] = sum;
+    });
+  });
+  return result;
+};
 
 
 /**
@@ -407,7 +418,7 @@ function getMatrixProduct(/* m1, m2 */) {
  * Function should return who is winner in the current position according to the game rules.
  * The result can be: 'X','0',undefined
  *
- * @param {array} position
+ * @param {array} pos
  * @return {string}
  *
  * @example
@@ -429,9 +440,24 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
-}
+const evaluateTicTacToePosition = (pos) => {
+  let result;
+  const isWinner = (sym) => {
+    if (pos[0][0] === sym && pos[1][1] === sym && pos[2][2] === sym) result = sym;
+    if (pos[0][2] === sym && pos[1][1] === sym && pos[2][0] === sym) result = sym;
+
+    if (pos[0][0] === sym && pos[0][1] === sym && pos[0][2] === sym) result = sym;
+    if (pos[1][0] === sym && pos[1][1] === sym && pos[1][2] === sym) result = sym;
+    if (pos[2][0] === sym && pos[2][1] === sym && pos[2][2] === sym) result = sym;
+
+    if (pos[0][0] === sym && pos[1][0] === sym && pos[2][0] === sym) result = sym;
+    if (pos[0][1] === sym && pos[1][1] === sym && pos[2][1] === sym) result = sym;
+    if (pos[0][2] === sym && pos[1][2] === sym && pos[2][2] === sym) result = sym;
+  };
+  isWinner('X');
+  isWinner('0');
+  return result;
+};
 
 
 module.exports = {

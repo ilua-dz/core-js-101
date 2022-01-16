@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* *********************************************************************************************
  *                                                                                             *
  * Please read the following tutorial before implementing tasks:                                *
@@ -80,9 +81,10 @@ const getPolynom = (...args) => (x) => {
  *   ...
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
-function memoize(/* func */) {
-  throw new Error('Not implemented');
-}
+const memoize = (func) => {
+  const cash = func();
+  return () => cash;
+};
 
 
 /**
@@ -100,10 +102,13 @@ function memoize(/* func */) {
  * }, 2);
  * retryer() => 2
  */
-function retry(/* func, attempts */) {
-  throw new Error('Not implemented');
-}
-
+const retry = (func, attempts) => () => {
+  try {
+    return func();
+  } catch (err) {
+    return retry(func, attempts - 1)();
+  }
+};
 
 /**
  * Returns the logging wrapper for the specified method,
@@ -128,9 +133,15 @@ function retry(/* func, attempts */) {
  * cos(3.141592653589793) ends
  *
  */
-function logger(/* func, logFunc */) {
-  throw new Error('Not implemented');
-}
+const logger = (func, logFunc) => (...args) => {
+  const stringifiedFunc = `${func.name}(${JSON.stringify(args).slice(1, -1)})`;
+
+  logFunc(`${stringifiedFunc} starts`);
+  const result = func(...args);
+  logFunc(`${stringifiedFunc} ends`);
+
+  return result;
+};
 
 
 /**
@@ -146,10 +157,7 @@ function logger(/* func, logFunc */) {
  *   partialUsingArguments(fn, 'a','b','c')('d') => 'abcd'
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
-function partialUsingArguments(/* fn, ...args1 */) {
-  throw new Error('Not implemented');
-}
-
+const partialUsingArguments = (fn, ...args1) => (...args2) => fn(...args1, ...args2);
 
 /**
  * Returns the id generator function that returns next integer starting
@@ -168,10 +176,10 @@ function partialUsingArguments(/* fn, ...args1 */) {
  *   getId4() => 7
  *   getId10() => 11
  */
-function getIdGeneratorFunction(/* startFrom */) {
-  throw new Error('Not implemented');
-}
-
+const getIdGeneratorFunction = (startFrom) => {
+  let cash = startFrom;
+  return () => cash++;
+};
 
 module.exports = {
   getComposition,
